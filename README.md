@@ -28,13 +28,7 @@ Then, add it as a **GitHub repository secret**:
 - Name it: `SLACK_WEBHOOK_URL`
 - Paste your Slack webhook URL
 
-### 3. Customize Slack Mentions (Optional)
-
-To notify a specific user, get your Slack User ID and update this line in `get_latest_macOS_sofa.sh`:
-<@UXXXXXXX> check it out!
-Replace `UXXXXXXX` with your actual Slack user ID (e.g., `<@U038UXXT9R8>`).
-
-### 4. Workflow Details
+### 3. Workflow Details
 
 The GitHub Actions workflow is defined in:
 .github/workflows/macos_update_check.yml
@@ -49,7 +43,7 @@ It performs the following steps:
 - Sends a Slack message if the version changed
 - Commits the updated version file back to the repo
 
-### 5. Manual Test
+### 4. Manual Test
 
 To test it manually:
 
