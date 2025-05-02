@@ -1,6 +1,6 @@
 # macOS Update Notifier
 
-This GitHub Actions workflow checks the official [Apple Developer News RSS feed](https://developer.apple.com/news/releases/rss/releases.rss) daily for new **stable macOS releases**, and sends a Slack message when one is detected.
+This GitHub Actions workflow checks the SOFA RSS feed daily for new **stable macOS releases**, and sends a Slack message when one is detected.
 
 ## 🚀 What It Does
 
