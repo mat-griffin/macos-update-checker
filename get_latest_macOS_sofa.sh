@@ -1,24 +1,49 @@
 #!/bin/bash
 
-# URL of the RSS feed
+# RSS feed URL
 RSS_URL="https://developer.apple.com/news/releases/rss/releases.rss"
+SLACK_WEBHOOK_URL="${SLACK_WEBHOOK_URL}"  # Set as a GitHub secret or env var
 
-# Fetch the RSS feed and parse it, excluding beta versions
+# File to track the last notified version
+LAST_VERSION_FILE="/tmp/last_macos_version.txt"
+
+# Fetch the latest stable macOS release
 latest_macos_item=$(curl -s "$RSS_URL" | xmlstarlet sel -N content="http://purl.org/rss/1.0/modules/content/" -t \
     -m "//item[(contains(description, 'macOS') or contains(title, 'macOS')) and not(contains(title, 'beta')) and not(contains(description, 'beta'))][1]" \
     -v "title" -o " " -v "link" -n)
 
-# Check if an item was found
+# Exit if no release found
 if [ -z "$latest_macos_item" ]; then
     echo "No stable macOS item found in the RSS feed."
     exit 1
 fi
 
-# Extract title and link from the latest macOS item
+# Extract title and link
 title=$(echo "$latest_macos_item" | sed 's/ \(http.*\)//')
 link=$(echo "$latest_macos_item" | grep -o 'http.*')
 
-# Display the result
+# Show the version info
 echo "Latest macOS Release:"
 echo "Version: $title"
 echo "Link: $link"
+
+# Read the last notified version (if any)
+if [ -f "$LAST_VERSION_FILE" ]; then
+    last_version=$(cat "$LAST_VERSION_FILE")
+else
+    last_version=""
+fi
+
+# If it's new, notify via Slack
+if [ "$title" != "$last_version" ]; then
+    echo "$title" > "$LAST_VERSION_FILE"
+
+    payload=$(jq -n --arg text ":apple: *New macOS Release Available!*\n<@U038UTST9R8> check it out!\n*Version:* $title\n*Link:* $link" \
+        '{text: $text}')
+
+    curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
+
+    echo "Posted to Slack: $title"
+else
+    echo "No new version found. Already notified about: $title"
+fi
