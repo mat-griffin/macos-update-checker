@@ -5,7 +5,7 @@ RSS_URL="https://developer.apple.com/news/releases/rss/releases.rss"
 SLACK_WEBHOOK_URL="${SLACK_WEBHOOK_URL}"  # Set as a GitHub secret or env var
 
 # File to track the last notified version
-LAST_VERSION_FILE="/tmp/last_macos_version.txt"
+LAST_VERSION_FILE="last_macos_version.txt"
 
 # Fetch the latest stable macOS release
 latest_macos_item=$(curl -s "$RSS_URL" | xmlstarlet sel -N content="http://purl.org/rss/1.0/modules/content/" -t \
