@@ -5,6 +5,9 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -17,5 +20,14 @@ jobs:
 
       - name: Run macOS Update Check
         run: ./get_latest_macOS_sofa.sh
+        shell: bash
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Commit new version file
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add last_macos_version.txt
+          git commit -m "Update last known macOS version" || echo "No changes to commit"
+          git push
