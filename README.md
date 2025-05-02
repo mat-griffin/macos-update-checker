@@ -53,7 +53,8 @@ To test it manually:
 
 ## 5. Example Slack Notification
 
-Here's how the alert looks in Slack:
+Here's how the alert looks in Slack with option using of using a slack ID to @ a user.
+The script is set to @here so anyone added to the channel is notified.
 
 ![Slack notification example](images/slack_post.png)
 
