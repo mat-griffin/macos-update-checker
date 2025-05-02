@@ -57,6 +57,12 @@ To test it manually:
 - Select **"Check macOS Updates"**
 - Click **"Run workflow"**
 
+## 5. Example Slack Notification
+
+Here's how the alert looks in Slack:
+
+![Slack notification example](images/slack_post.png)
+
 ---
 
 ## 📄 Key Files
