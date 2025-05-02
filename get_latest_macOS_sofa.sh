@@ -38,8 +38,8 @@ fi
 if [ "$title" != "$last_version" ]; then
     echo "$title" > "$LAST_VERSION_FILE"
 
-   payload=$(jq -n --arg title "$title" --arg link "$link" --arg user "<@U038UTST9R8>" \
-    '{text: ":appleinc: *New macOS Release Available!*\n\($user) check it out!\n*Version:* \($title)\n*Link:* \($link)"}')
+   payload=$(jq -n --arg title "$title" --arg link "$link" \
+    '{text: ":appleinc: *New macOS Release Available!*\n@here check it out!\n*Version:* \($title)\n*Link:* \($link)"}')
 
     curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
 
